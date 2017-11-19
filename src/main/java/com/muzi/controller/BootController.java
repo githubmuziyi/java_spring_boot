@@ -1,8 +1,12 @@
-package com.muzi;
+package com.muzi.controller;
 
+import com.muzi.domain.Girl;
+import com.muzi.repository.GirlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,16 +26,17 @@ public class BootController {
 
     /**
      * 添加数据
-     * @param cupSize
-     * @param age
+     * @param girl
      * @return
      */
     @PostMapping(value = "/girl")
-    public Girl girlAdd(@RequestParam("cupSize") String cupSize,
-                          @RequestParam("age") Integer age) {
-        Girl girl = new Girl();
-        girl.setAge(age);
-        girl.setCupSize(cupSize);
+    public Girl girlAdd(@Valid Girl girl, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getFieldError().getDefaultMessage());
+            return null;
+        }
+        girl.setAge(girl.getAge());
+        girl.setCupSize(girl.getCupSize());
         return girlRepository.save(girl);
     }
 

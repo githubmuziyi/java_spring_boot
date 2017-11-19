@@ -1,5 +1,7 @@
-package com.muzi;
+package com.muzi.service;
 
+import com.muzi.domain.Girl;
+import com.muzi.repository.GirlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
