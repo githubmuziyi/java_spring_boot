@@ -1,7 +1,10 @@
 package com.muzi.controller;
 
 import com.muzi.domain.Girl;
+import com.muzi.domain.Result;
 import com.muzi.repository.GirlRepository;
+import com.muzi.service.GirlService;
+import com.muzi.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,9 @@ public class BootController {
     @Autowired
     private GirlRepository girlRepository;
 
+    @Autowired
+    private GirlService girlService;
+
     /**
      * 列表
      * @return [数据列表]
@@ -26,18 +32,16 @@ public class BootController {
 
     /**
      * 添加数据
-     * @param girl
      * @return
      */
     @PostMapping(value = "/girl")
-    public Girl girlAdd(@Valid Girl girl, BindingResult bindingResult) {
+    public Result<Girl> girlAdd(@Valid Girl girl, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getFieldError().getDefaultMessage());
-            return null;
+            return ResultUtil.error(1, bindingResult.getFieldError().getDefaultMessage());
         }
         girl.setAge(girl.getAge());
         girl.setCupSize(girl.getCupSize());
-        return girlRepository.save(girl);
+        return ResultUtil.success(girlRepository.save(girl));
     }
 
     /**
@@ -77,5 +81,14 @@ public class BootController {
     @DeleteMapping(value = "/girl/{id}")
     public void girlDelete(@PathVariable("id") Integer id) {
         girlRepository.delete(id);
+    }
+
+    /**
+     *
+     * @param id
+     */
+    @GetMapping(value = "/girl/getAge/{id}")
+    public void getAge(@PathVariable("id") Integer id) throws Exception {
+        girlService.getAge(id);
     }
 }
