@@ -47,4 +47,13 @@ public class GirlService {
             throw new GirlException(ResultEnum.MIDDLE_SCHOOL);
         }
     }
+
+    /**
+     * 按id查询
+     * @param id
+     * @return
+     */
+    public Girl findById(Integer id) {
+        return girlRepository.findOne(id);
+    }
 }
