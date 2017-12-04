@@ -22,4 +22,9 @@ public class HelloController {
     public String helloException() throws GirlException {
         throw new GirlException(ResultEnum.UNKONW_ERROR);
     }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
 }
